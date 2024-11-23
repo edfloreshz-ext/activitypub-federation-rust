@@ -41,7 +41,7 @@ use std::{
 use url::Url;
 
 /// Configuration for this library, with various federation related settings
-#[derive(Builder, Clone)]
+#[derive(Debug, Builder, Clone)]
 #[builder(build_fn(private, name = "partial_build"))]
 pub struct FederationConfig<T: Clone> {
     /// The domain where this federated instance is running
@@ -280,6 +280,12 @@ impl<T: Clone> Deref for FederationConfig<T> {
 pub trait UrlVerifier: DynClone + Send {
     /// Should return Ok iff the given url is valid for processing.
     async fn verify(&self, url: &Url) -> Result<(), Error>;
+}
+
+impl std::fmt::Debug for dyn UrlVerifier + Sync + 'static {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "UrlVerifier",)
+    }
 }
 
 /// Default URL verifier which does nothing.

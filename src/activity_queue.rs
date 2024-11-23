@@ -100,6 +100,7 @@ async fn sign_and_send(
 /// A simple activity queue which spawns tokio workers to send out requests
 /// When creating a queue, it will spawn a task per worker thread
 /// Uses an unbounded mpsc queue for communication (i.e, all messages are in memory)
+#[derive(Debug)]
 pub(crate) struct ActivityQueue {
     // Stats shared between the queue and workers
     stats: Arc<Stats>,
